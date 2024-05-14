@@ -20,3 +20,18 @@ myReverse list = reverse' list []
   where
     reverse' [] reversed = reversed
     reverse' (x : xs) reversed = reverse' xs (x : reversed)
+
+isPal :: (Eq a) => [a] -> Bool
+isPal xs = xs == reverse xs
+
+data NestedList a = Elem a | List [NestedList a]
+
+flatten :: NestedList a -> [a]
+flatten (Elem a) = [a]
+flatten (List (x : xs)) = flatten x ++ flatten (List xs)
+flatten (List []) = []
+
+compress xs = foldr f (const []) xs Nothing
+  where
+    f x r a@(Just q) | x == q = r a
+    f x r _ = x : r (Just x)
