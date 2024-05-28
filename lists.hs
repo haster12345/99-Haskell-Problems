@@ -35,3 +35,7 @@ compress xs = foldr f (const []) xs Nothing
   where
     f x r a@(Just q) | x == q = r a
     f x r _ = x : r (Just x)
+
+pack (x:xs) = let (first,rest) = span (==x) xs
+               in (x:first) : pack rest
+pack [] = []
